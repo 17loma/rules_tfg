@@ -1,0 +1,8 @@
+# ========= PRIORIDAD 1 (BAJA) =========
+alert icmp any any -> any any (msg:"PRIORITY 1 - ICMP Ping"; sid:1000001; priority:1;)
+alert http any any -> any any (msg:"PRIORITY 1 - HTTP Request"; flow:to_server; content:"GET"; http_method; sid:1000002; priority:1;)
+alert dns any any -> any any (msg:"PRIORITY 1 - DNS Query"; sid:1000003; priority:1;)
+
+# ========= PRIORIDAD 2 (MEDIA) =========
+alert tcp any any -> any 22 (msg:"PRIORITY 2 - SSH Connection"; sid:2000001; priority:2;)
+alert http any any -> any any (msg:"PRIORITY 2 - Directory Scan"; content:"/admin/"; http_uri; sid:2000002; priority:2;)

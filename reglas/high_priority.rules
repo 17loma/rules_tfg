@@ -1,0 +1,8 @@
+# Reglas de severidad 3 (alta)
+alert tcp any any -> $HOME_NET 22 (msg:"ATAQUE SSH - Intento de conexión SSH"; flow:to_server; threshold:type threshold, track by_src, count 5, seconds 60; classtype:attempted-admin; priority:3; sid:5000001; rev:1;)
+alert tcp any any -> $HOME_NET any (msg:"ESCANEO DE PUERTOS - Posible Nmap SYN scan"; flags:S; threshold:type threshold, track by_src, count 15, seconds 60; classtype:attempted-recon; priority:3; sid:5000002; rev:1;)
+
+# Reglas de severidad 4 (muy grave)
+alert tcp any any -> $HOME_NET 3306 (msg:"ATAQUE BASE DE DATOS - Posible ataque de inyección SQL"; content:"union"; nocase; content:"select"; nocase; distance:0; classtype:web-application-attack; priority:4; sid:5000003; rev:1;)
+alert http any any -> $HOME_NET any (msg:"COMANDO REMOTO - Posible ejecución de comando"; content:"|3b|"; pcre:"/(\;|\||\`|\$\()/"; classtype:web-application-attack; priority:4; sid:5000004; rev:1;)
+alert tcp any any -> $HOME_NET any (msg:"RANSOMWARE - Posible conexión a servidor C&C conocido"; reference:url,www.example.com/ransomware; classtype:trojan-activity; priority:4; sid:5000005; rev:1;)
